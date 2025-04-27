@@ -1,33 +1,45 @@
 using Microsoft.AspNetCore.Mvc;
+using tpmod10_103022330128;
 
-namespace tpmod10_103022330128.Controllers
+namespace tpmodul10_103022330128.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class MahasiswaController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private static List<Mahasiswa> mahasiswaList = new List<Mahasiswa>
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            new Mahasiswa("Abizar Tsaqif Abrar", "10302233028"),
+            new Mahasiswa("Ahmad Naufal Al Ghiffari", "103022300006"),
+            new Mahasiswa("Maulana Jidan Azizi", "103022300083"),
+            new Mahasiswa("Wildan Nabil Ramdhany", "103022300095"),
+            new Mahasiswa("Elvina Nilysti Huang", "1030223000145"),
+            new Mahasiswa("Hafidz Zuhayr Shiddiq", "103022300019"),
+            new Mahasiswa("Mikdam Huda", "130223034")
         };
 
-        private readonly ILogger<MahasiswaController> _logger;
-
-        public MahasiswaController(ILogger<MahasiswaController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
         public IEnumerable<Mahasiswa> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new Mahasiswa
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return mahasiswaList;
+        }
+
+        [HttpGet("{index}")]
+        public Mahasiswa Get(int index)
+        {
+            return mahasiswaList[index];
+        }
+
+        [HttpPost]
+        public void Post([FromBody] Mahasiswa mhs)
+        {
+            mahasiswaList.Add(mhs);
+        }
+
+        [HttpDelete("{index}")]
+        public void Delete(int index)
+        {
+            mahasiswaList.RemoveAt(index);
         }
     }
 }
